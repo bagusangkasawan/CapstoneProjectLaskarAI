@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnergyMate Chatbot</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #9c27b0, #ff9800); /* Ungu cerah dan oranye yang lebih berani */
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: #333;
+        }
+        .chat-container {
+            width: 90%;
+            max-width: 500px;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        .chat-header {
+            background-color: #8e24aa; /* Ungu lebih cerah dan mencolok */
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            border-bottom: 2px solid #eaeaea;
+        }
+        .chat-box {
+            height: 400px;
+            overflow-y: auto;
+            padding: 20px;
+            background-color: #f1f0f6; /* Latar belakang abu-abu lembut */
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .chat-box p {
+            margin: 0;
+            padding: 12px 18px;
+            border-radius: 20px;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .chat-box .user-message {
+            background-color: #ff5722; /* Oranye cerah untuk pesan pengguna */
+            color: white;
+            align-self: flex-end;
+        }
+        .chat-box .ai-message {
+            background-color: #9c27b0; /* Ungu cerah untuk pesan AI */
+            color: white;
+            align-self: flex-start;
+        }
+        .user-input-container {
+            display: flex;
+            padding: 15px;
+            background-color: #ffffff;
+            gap: 10px;
+            align-items: center;
+            border-top: 2px solid #eaeaea;
+        }
+        .user-input {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            font-size: 14px;
+            outline: none;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .send-btn {
+            background-color: #ff5722; /* Oranye cerah untuk tombol kirim */
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .send-btn:hover {
+            transform: scale(1.1);
+            background-color: #ff3d00; /* Oranye lebih gelap saat hover */
+        }
+        .loading {
+            font-style: italic;
+            color: #ff5722; /* Oranye untuk teks loading */
+        }
+    
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>       
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            EnergyMate Chatbot
+        </div>
+        <div class="chat-box" id="chat-box">
+            <p class="ai-message"><strong>AI:</strong> Hello! How can I assist you today?</p>
+        </div>
+        <div class="user-input-container">
+            <textarea class="user-input" id="user-input" placeholder="Type your message..."></textarea>
+            <button class="send-btn" onclick="sendMessage()">➤</button>
+        </div>
+    </div>
+
+    <script>
+        function sendMessage() {
+            const userInput = document.getElementById("user-input").value;
+
+            if (userInput.trim() === "") return;
+
+            // Display user input in chat box
+            const chatBox = document.getElementById("chat-box");
+            const userMessage = document.createElement("p");
+            userMessage.className = "user-message";
+            userMessage.innerHTML = "<strong>You:</strong> " + userInput;
+            chatBox.appendChild(userMessage);
+
+            // Display loading message while waiting for AI response
+            const loadingMessage = document.createElement("p");
+            loadingMessage.className = "ai-message loading";
+            loadingMessage.innerHTML = "<strong>AI:</strong> Writing...";
+            chatBox.appendChild(loadingMessage);
+            document.getElementById("user-input").value = "";
+
+            // Scroll to the bottom of the chat box
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Send message to Flask backend
+            fetch('/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'user_input=' + encodeURIComponent(userInput)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Remove loading message
+                loadingMessage.remove();
+
+                // Display response from AI
+                const aiMessage = document.createElement("p");
+                aiMessage.className = "ai-message";
+                aiMessage.innerHTML = "<strong>AI:</strong> " + (data.response || "Sorry, there was an error processing your request.");
+                chatBox.appendChild(aiMessage);
+
+                // Scroll to the bottom of the chat box
+                chatBox.scrollTop = chatBox.scrollHeight;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                loadingMessage.remove();
+                const errorMessage = document.createElement("p");
+                errorMessage.className = "ai-message";
+                errorMessage.innerHTML = "<strong>AI:</strong> Sorry, there was an error with the request.";
+                chatBox.appendChild(errorMessage);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            });
+        }
+
+        // Tambahkan event listener untuk menangkap tombol Enter
+        document.getElementById("user-input").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
