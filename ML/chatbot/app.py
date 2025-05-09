@@ -7,7 +7,8 @@ import vertexai
 from vertexai.generative_models import GenerativeModel, SafetySetting
 
 # Load environment variables from .env
-load_dotenv()
+if os.getenv("FLASK_ENV", "development") != "production":
+    load_dotenv()
 
 # Initialize Flask app
 app = Flask(__name__)
