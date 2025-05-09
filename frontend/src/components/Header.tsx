@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { Link } from "react-router";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,7 +19,7 @@ export default function Header() {
         <nav className="hidden md:flex space-x-8 text-lg font-medium text-gray-700">
           <a href="/" className="hover:text-green-600 transition-colors">Beranda</a>
           <a href="#fitur" className="hover:text-green-600 transition-colors">Fitur</a>
-          <a href="#tentang" className="hover:text-green-600 transition-colors">Tentang</a>
+          <Link to="/about" className="hover:text-green-600 transition-colors">Tentang</Link>
           <a href="#kontak" className="hover:text-green-600 transition-colors">Kontak</a>
         </nav>
 

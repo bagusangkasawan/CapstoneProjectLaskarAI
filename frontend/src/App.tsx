@@ -3,6 +3,7 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import HomePage from "./pages/HomePage";
 import ChatbotLauncher from "./components/ChatbotLauncher";
+import AboutPage from "./pages/AboutPage";
 
 export default function App() {
   return (
@@ -11,7 +12,7 @@ export default function App() {
       <main className="flex-1 bg-gray-100 overflow-y-auto">
         <Routes>
           <Route path="/" element={<HomePage />} />
-          {/* TODO: Add /nav /about, /settings, etc. */}
+          <Route path="/about" element={<AboutPage />} />
         </Routes>
         <ChatbotLauncher />
       </main>
