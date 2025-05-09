@@ -72,6 +72,9 @@ def generate_message():
         print(f"Error occurred: {e}")
         return jsonify({'error': 'Internal server error'}), 500
 
+# Swagger UI config
+app.config['SWAGGER_UI_DOC_EXPANSION'] = 'list'
+
 # Swagger Setup (Flask-RESTX)
 api = Api(
     app,
