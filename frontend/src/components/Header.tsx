@@ -19,6 +19,7 @@ export default function Header() {
         <nav className="hidden md:flex space-x-8 text-lg font-medium text-gray-700">
           <a href="/" className="hover:text-green-600 transition-colors">Beranda</a>
           <a href="#fitur" className="hover:text-green-600 transition-colors">Fitur</a>
+          <Link to="/blog" className="hover:text-green-600 transition-colors">Blog</Link>
           <Link to="/about" className="hover:text-green-600 transition-colors">Tentang</Link>
           <a href="#kontak" className="hover:text-green-600 transition-colors">Kontak</a>
         </nav>
@@ -36,9 +37,10 @@ export default function Header() {
       {/* Mobile Navigation Menu */}
       {isOpen && (
         <nav className="md:hidden mt-2 space-y-2 px-4 pb-4 text-lg font-medium text-gray-700 bg-white border-t">
-          <a href="/" className="block hover:text-green-600 transition-colors">Beranda</a>
+          <a href="/" className="block hover:text-green-600 transition-colors mt-4">Beranda</a>
           <a href="#fitur" className="block hover:text-green-600 transition-colors">Fitur</a>
-          <a href="#tentang" className="block hover:text-green-600 transition-colors">Tentang</a>
+          <Link to="/blog" className="block hover:text-green-600 transition-colors">Blog</Link>
+          <Link to="/about" className="block hover:text-green-600 transition-colors">Tentang</Link>
           <a href="#kontak" className="block hover:text-green-600 transition-colors">Kontak</a>
         </nav>
       )}
