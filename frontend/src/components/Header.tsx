@@ -21,7 +21,7 @@ export default function Header() {
           <a href="#fitur" className="hover:text-green-600 transition-colors">Fitur</a>
           <Link to="/blog" className="hover:text-green-600 transition-colors">Blog</Link>
           <Link to="/about" className="hover:text-green-600 transition-colors">Tentang</Link>
-          <a href="#kontak" className="hover:text-green-600 transition-colors">Kontak</a>
+          <Link to="/contact" className="hover:text-green-600 transition-colors">Kontak</Link>
         </nav>
 
         {/* Mobile Menu Button */}
@@ -41,7 +41,7 @@ export default function Header() {
           <a href="#fitur" className="block hover:text-green-600 transition-colors">Fitur</a>
           <Link to="/blog" className="block hover:text-green-600 transition-colors">Blog</Link>
           <Link to="/about" className="block hover:text-green-600 transition-colors">Tentang</Link>
-          <a href="#kontak" className="block hover:text-green-600 transition-colors">Kontak</a>
+          <Link to="/contact" className="block hover:text-green-600 transition-colors">Kontak</Link>
         </nav>
       )}
     </header>
