@@ -1,4 +1,6 @@
 import { Separator } from "@/components/ui/separator";
+import { FaLinkedin } from "react-icons/fa";
+import { Link } from "react-router";
 
 export default function Contact() {
     return (
@@ -12,25 +14,29 @@ export default function Contact() {
                             name: "Bagus Angkasawan Sumantri Putra",
                             role: "Project Leader (Chatbot)",
                             image: "/bagus.jpeg",
-                            bio: "Lorem Ipsum"
+                            bio: "Lorem Ipsum",
+                            linkedin: "https://www.linkedin.com/in/bagus-angkasawan-sumantri-putra/"
                         },
                         {
                             name: "Muhammad Gilang Ramadhan",
                             role: "Member (ML Model Training)",
                             image: "/gilang.jpeg",
-                            bio: "Lorem Ipsum"
+                            bio: "Lorem Ipsum",
+                            linkedin: "https://www.linkedin.com/in/muhammad-gilang-ramadhan-0754a4266/"
                         },
                         {
                             name: "Bima Adityo Kurniawan",
                             role: "Member (Front-End)",
                             image: "/bima.jpeg",
-                            bio: "Lorem Ipsum"
+                            bio: "Lorem Ipsum",
+                            linkedin: "https://www.linkedin.com/in/bimaadityokurniawan/"
                         },
                         {
                             name: "Auliyya Aini",
                             role: "Member (ML Model Training)",
                             image: "/auliyya.jpeg",
-                            bio: "Lorem Ipsum"
+                            bio: "Lorem Ipsum",
+                            linkedin: "https://www.linkedin.com/in/auliyyaaini/"
                         },
                     ].map((member) => (
                         <div key={member.name} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
@@ -44,9 +50,19 @@ export default function Contact() {
                                         />
                                     </div>
                                     <div className="flex-1">
-                                        <div>
-                                            <h3 className="text-xl font-semibold">{member.name}</h3>
-                                            <p className="text-green-600 font-medium">{member.role}</p>
+                                        <div className="flex justify-between items-start">
+                                            <div>
+                                                <h3 className="text-xl font-semibold">{member.name}</h3>
+                                                <p className="text-green-600 font-medium">{member.role}</p>
+                                            </div>
+                                            <Link
+                                                to={member.linkedin} 
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-gray-500 hover:text-blue-600 transition-colors"
+                                            >
+                                                <FaLinkedin className="w-5 h-5"/>
+                                            </Link>
                                         </div>
                                         <div className="mt-4">
                                             <p className="text-gray-600">{member.bio}</p>
