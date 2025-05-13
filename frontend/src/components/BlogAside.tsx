@@ -1,48 +1,34 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import type { ArticleKey, PopularPost } from "@/model/article-models";
 import { Clock } from "lucide-react";
 
-export function BlogAside() {
-    const popularPosts = [
+export function BlogAside({ onPostClick }: {onPostClick: (postId: ArticleKey) => void;}) {
+    const popularPosts: PopularPost[] = [
         {
-            id: 1,
+            id: "post1",
             title: "Cara Mudah Menghemat Listrik di Rumah",
             category: "Tips",
-            readTime: "3 min read",
-            date: "April 28, 2024"
+            readTime: "5 min read",
+            date: "28 April, 2025"
         },
         {
-            id: 2,
+            id: "post2",
             title: "Memahami Tagihan Listrik Anda",
             category: "Guide",
-            readTime: "5 min read",
-            date: "April 15, 2024"
+            readTime: "7 min read",
+            date: "15 April, 2025"
         },
         {
-            id: 3,
+            id: "post3",
             title: "Energi Terbarukan di Indonesia",
             category: "Sustainability",
-            readTime: "4 min read",
-            date: "March 30, 2024"
-        },
-        {
-            id: 4,
-            title: "Memilih Peralatan Hemat Energi",
-            category: "Review",
             readTime: "6 min read",
-            date: "March 22, 2024"
-        },
-        {
-            id: 5,
-            title: "Dampak Perubahan Iklim pada Energi",
-            category: "Research",
-            readTime: "7 min read",
-            date: "March 10, 2024"
+            date: "30 April, 2025"
         }
     ];
 
     return (
         <div className="space-y-6">
-
             <Card className="shadow-sm border border-gray-100">
                 <CardHeader>
                     <CardTitle className="text-lg font-semibold">Popular Posts</CardTitle>
@@ -50,7 +36,10 @@ export function BlogAside() {
                 <CardContent className="space-y-4">
                     {popularPosts.map(post => (
                         <div key={post.id} className="group">
-                            <a href="#" className="block">
+                            <button 
+                                onClick={() => onPostClick(post.id)}
+                                className="block w-full text-left hover:bg-gray-50 p-2 -m-2 rounded transition-colors cursor-pointer"
+                            >
                                 <h3 className="font-medium text-gray-900 group-hover:text-green-600 transition-colors">
                                     {post.title}
                                 </h3>
@@ -60,34 +49,9 @@ export function BlogAside() {
                                     <Clock className="w-3 h-3 mr-1" />
                                     {post.readTime}
                                 </div>
-                            </a>
+                            </button>
                         </div>
                     ))}
-                </CardContent>
-            </Card>
-
-            <Card className="shadow-sm border border-gray-100">
-                <CardHeader>
-                    <CardTitle className="text-lg font-semibold">Newsletter</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-sm text-gray-600 mb-4">
-                        Dapatkan update terbaru tentang energi dan keberlanjutan langsung ke email Anda.
-                    </p>
-                    <form className="space-y-3">
-                        <input
-                            type="email"
-                            placeholder="Your email address"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                            required
-                        />
-                        <button
-                            type="submit"
-                            className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md transition-colors"
-                        >
-                            Subscribe
-                        </button>
-                    </form>
                 </CardContent>
             </Card>
         </div>

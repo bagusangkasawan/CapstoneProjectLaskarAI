@@ -12,7 +12,7 @@ export default function Contact() {
                     {[
                         {
                             name: "Bagus Angkasawan Sumantri Putra",
-                            role: "Project Leader (Chatbot)",
+                            role: "Project Leader (Chatbot API)",
                             image: "/bagus.jpeg",
                             bio: "Lorem Ipsum",
                             linkedin: "https://www.linkedin.com/in/bagus-angkasawan-sumantri-putra/"

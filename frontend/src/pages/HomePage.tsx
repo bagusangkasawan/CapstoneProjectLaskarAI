@@ -19,7 +19,7 @@ export default function HomePage() {
                 <p className="text-lg text-gray-600">
                 Pantau dan optimalkan konsumsi listrik Anda dengan solusi cerdas dari EnergyMate.
                 </p>
-                <button className="self-center md:self-start mt-4 px-6 py-3 w-75 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition-all">
+                <button className="self-center md:self-start mt-4 px-6 py-3 w-75 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition-all cursor-pointer">
                     Mulai Sekarang
                 </button>
             </div>
@@ -62,7 +62,7 @@ export default function HomePage() {
             <p className="text-gray-600 mb-6">
                 Punya pertanyaan? Ingin kerja sama? Kami siap membantu Anda.
             </p>
-            <button className="px-6 py-3 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition-all">
+            <button className="px-6 py-3 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition-all cursor-pointer">
                 Kirim Pesan
             </button>
             </div>
