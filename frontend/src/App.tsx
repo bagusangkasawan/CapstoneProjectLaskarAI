@@ -16,7 +16,7 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="//contact" element={<ContactPage />} />
+          <Route path="/contact" element={<ContactPage />} />
         </Routes>
         <ChatbotLauncher />
       </main>
