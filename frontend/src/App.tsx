@@ -6,6 +6,7 @@ import ChatbotLauncher from "./components/ChatbotLauncher";
 import AboutPage from "./pages/AboutPage";
 import BlogPage from "./pages/BlogPage";
 import ContactPage from "./pages/ContactPage";
+import FeaturePage from "./pages/FeaturePage";
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
       <main className="flex-1 bg-gray-100 overflow-y-auto">
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/feature" element={<FeaturePage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />

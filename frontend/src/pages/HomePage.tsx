@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 
 
 export default function HomePage() {
@@ -19,9 +20,11 @@ export default function HomePage() {
                 <p className="text-lg text-gray-600">
                 Pantau dan optimalkan konsumsi listrik Anda dengan solusi cerdas dari EnergyMate.
                 </p>
-                <button className="self-center md:self-start mt-4 px-6 py-3 w-75 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition-all cursor-pointer">
-                    Mulai Sekarang
-                </button>
+                <Link to="/feature">
+                    <button className="self-center md:self-start mt-4 px-6 py-3 w-75 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition-all cursor-pointer">
+                        Mulai Sekarang
+                    </button>
+                </Link>
             </div>
         </section>
 

@@ -9,16 +9,18 @@ export default function Header() {
     <header className="p-4 shadow-md bg-white w-full">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
 
+      <Link to="/">
         <img
           src="/energymate-logo.png"
           alt="EnergyMate Logo"
           className="h-20 w-[292px]"
         />
+      </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-8 text-lg font-medium text-gray-700">
           <Link to="/" className="hover:text-green-600 transition-colors">Beranda</Link>
-          <a href="#fitur" className="hover:text-green-600 transition-colors">Fitur</a>
+          <Link to="/feature" className="hover:text-green-600 transition-colors">Fitur</Link>
           <Link to="/blog" className="hover:text-green-600 transition-colors">Blog</Link>
           <Link to="/about" className="hover:text-green-600 transition-colors">Tentang</Link>
           <Link to="/contact" className="hover:text-green-600 transition-colors">Kontak</Link>
@@ -38,7 +40,7 @@ export default function Header() {
       {isOpen && (
         <nav className="md:hidden mt-2 space-y-2 px-4 pb-4 text-lg font-medium text-gray-700 bg-white border-t">
           <Link to="/" className="block hover:text-green-600 transition-colors mt-4">Beranda</Link>
-          <a href="#fitur" className="block hover:text-green-600 transition-colors">Fitur</a>
+          <Link to="/feature" className="block hover:text-green-600 transition-colors">Fitur</Link>
           <Link to="/blog" className="block hover:text-green-600 transition-colors">Blog</Link>
           <Link to="/about" className="block hover:text-green-600 transition-colors">Tentang</Link>
           <Link to="/contact" className="block hover:text-green-600 transition-colors">Kontak</Link>
