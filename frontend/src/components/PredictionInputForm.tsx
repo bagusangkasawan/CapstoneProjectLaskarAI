@@ -102,20 +102,20 @@ export default function PredictionInputForm() {
         {/* Input Form Card */}
         <Card className="flex-1 p-6 rounded-xl bg-white shadow-lg">
           <div className="text-center mb-6">
-            <h1 className="text-2xl font-bold text-green-700">🔋 EnergyMate Prediction</h1>
+            <h1 className="text-2xl font-bold text-green-700">EnergyMate Prediction</h1>
           </div>
           
           <CardContent className="space-y-4">
-            <div className="space-y-4" id="alat-wrapper">
+            <div className="space-y-4">
               {rows.map((row, index) => (
                 <div key={index} className="flex gap-2 items-end">
-                  <div className="flex-1">
+                  <div className="flex-1 w-full">
                     <label className="block text-sm font-medium text-gray-700 mb-1">Pilih Alat</label>
                     <Select
                       onValueChange={(value) => handleRowChange(index, "device", value)}
                       value={row.device}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="w-full">
                         <SelectValue placeholder="Pilih Alat" />
                       </SelectTrigger>
                       <SelectContent>
@@ -154,7 +154,7 @@ export default function PredictionInputForm() {
                       variant="ghost"
                       size="sm"
                       onClick={() => handleRemoveRow(index)}
-                      className="text-red-500 hover:bg-red-100"
+                      className="text-red-500 hover:bg-red-100 cursor-pointer"
                       disabled={rows.length === 1}
                     >
                       X
@@ -165,7 +165,7 @@ export default function PredictionInputForm() {
             </div>
 
             <Button
-              className="w-full bg-green-600 hover:bg-green-700 text-white"
+              className="w-full bg-green-600 hover:bg-green-700 text-white cursor-pointer"
               onClick={handleAddRow}
             >
               + Tambah Alat
@@ -185,7 +185,7 @@ export default function PredictionInputForm() {
             </div>
 
             <Button
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold cursor-pointer"
               onClick={handlePredict}
               disabled={loading}
             >

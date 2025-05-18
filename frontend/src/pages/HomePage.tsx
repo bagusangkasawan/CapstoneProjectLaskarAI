@@ -1,3 +1,4 @@
+import { BarChart3, Lightbulb, Timer } from "lucide-react";
 import { Link } from "react-router";
 
 
@@ -33,18 +34,26 @@ export default function HomePage() {
         <section id="fitur" className="px-8 py-20 bg-white">
             <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Fitur Unggulan</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="p-6 rounded-lg shadow bg-gray-50">
-                <h3 className="text-xl font-semibold mb-2">Pemantauan Real-Time</h3>
+                <div className="p-6 rounded-lg shadow bg-gray-50">
+                <h3 className="text-xl font-semibold mb-2 flex flex-row gap-2 items-center">
+                    Pemantauan Real-Time <Timer className="w-5 h-5 text-green-600" />
+                </h3>
                 <p className="text-gray-600">Lihat konsumsi listrik secara langsung dan identifikasi pemborosan.</p>
-            </div>
-            <div className="p-6 rounded-lg shadow bg-gray-50">
-                <h3 className="text-xl font-semibold mb-2">Analitik Pintar</h3>
+                </div>
+
+                <div className="p-6 rounded-lg shadow bg-gray-50">
+                <h3 className="text-xl font-semibold mb-2 flex flex-row gap-2 items-center">
+                    Analitik Pintar <BarChart3 className="w-5 h-5 text-green-600" />
+                </h3>
                 <p className="text-gray-600">Gunakan data historis untuk memahami pola penggunaan listrik Anda.</p>
-            </div>
-            <div className="p-6 rounded-lg shadow bg-gray-50">
-                <h3 className="text-xl font-semibold mb-2">Rekomendasi Hemat</h3>
+                </div>
+
+                <div className="p-6 rounded-lg shadow bg-gray-50">
+                <h3 className="text-xl font-semibold mb-2 flex flex-row gap-2 items-center">
+                    Rekomendasi Hemat <Lightbulb className="w-5 h-5 text-green-600" />
+                </h3>
                 <p className="text-gray-600">Dapatkan saran otomatis untuk menghemat biaya listrik setiap bulan.</p>
-            </div>
+                </div>
             </div>
         </section>
 
@@ -55,19 +64,6 @@ export default function HomePage() {
             <p className="text-gray-600 text-lg">
                 EnergyMate adalah platform pemantauan listrik pintar yang dirancang untuk rumah tangga dan bisnis yang ingin mengelola konsumsi listrik secara efisien dan bertanggung jawab.
             </p>
-            </div>
-        </section>
-
-        {/* Contact Section */}
-        <section id="kontak" className="px-8 py-20 bg-white">
-            <div className="max-w-xl mx-auto text-center">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">Hubungi Kami</h2>
-            <p className="text-gray-600 mb-6">
-                Punya pertanyaan? Ingin kerja sama? Kami siap membantu Anda.
-            </p>
-            <button className="px-6 py-3 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition-all cursor-pointer">
-                Kirim Pesan
-            </button>
             </div>
         </section>
         </>

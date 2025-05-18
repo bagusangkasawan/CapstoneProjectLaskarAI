@@ -1,5 +1,4 @@
-import { Card, CardHeader, CardTitle, CardContent } from "./ui/card"; // shadcn components
-import { Button } from "./ui/button"; // shadcn button
+import { Card, CardHeader, CardTitle, CardContent } from "./ui/card";
 import { BotMessageSquare, Zap } from "lucide-react";
 
 export default function About() {
@@ -23,9 +22,6 @@ export default function About() {
           <p className="text-gray-700 mb-4">
             EnergyMate adalah aplikasi web inovatif yang memanfaatkan <strong>machine learning</strong> dan <strong>chatbot cerdas</strong> untuk membantu rumah tangga mengoptimalkan penggunaan energi. Dengan analisis data konsumsi energi, EnergyMate memberikan rekomendasi personalisasi untuk mengurangi pemborosan.
           </p>
-          <Button variant="ghost" className="bg-green-100 text-green-800 hover:bg-green-200 cursor-pointer">
-            Pelajari Lebih Lanjut
-          </Button>
         </CardContent>
       </Card>
 
@@ -60,8 +56,7 @@ export default function About() {
         </Card>
       </div>
 
-      {/* Bagian Call-to-Action */}
-      <div className="bg-green-50 p-6 rounded-lg text-center">
+      {/* <div className="bg-green-50 p-6 rounded-lg text-center">
         <h3 className="text-xl font-bold mb-3 text-green-800">Mulai Hemat Energi Hari Ini!</h3>
         <p className="mb-4 text-green-700">
           Daftar untuk mendapatkan notifikasi saat EnergyMate diluncurkan.
@@ -76,7 +71,7 @@ export default function About() {
             Daftar
           </Button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
