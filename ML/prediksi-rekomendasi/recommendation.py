@@ -3,19 +3,20 @@ import numpy as np
 from tensorflow.keras.models import load_model
 
 # Load model dan scaler
-model = load_model('model/best_model.keras')
-X_scaler = joblib.load("model/X_scaler.save")
-y_scaler = joblib.load("model/y_scaler.save")
+model = load_model('models/best_model.keras')
+X_scaler = joblib.load("models/X_scaler.save")
+if hasattr(X_scaler, 'feature_names_in_'):
+    del X_scaler.feature_names_in_
+y_scaler = joblib.load("models/y_scaler.save")
 
-Q1 = 0.35
-Q3 = 1.20
+Q1 = 2.50
+Q3 = 5.00
 
 SUB_LABELS = {
     "Sub_metering_1": "Dapur",
     "Sub_metering_2": "Laundry",
     "Sub_metering_3": "Water Heater & AC"
 }
-
 
 def get_user_consumption():
     appliance_power = {
@@ -65,8 +66,6 @@ def get_user_consumption():
 
         energy_kwh = power * count * hours
         sub_key = appliance_to_sub.get(item, "Sub_metering_1")
-        total_kw = submeter_usage["Sub_metering_1"] + submeter_usage["Sub_metering_2"] + submeter_usage["Sub_metering_3"]
-        global_intensity = round((total_kw * 1000) / 220, 2)
         submeter_usage[sub_key] += energy_kwh
         print(f"► {item}: {count} × {power} kW × {hours} jam = {energy_kwh:.2f} kWh pada {sub_key}\n")
 
@@ -78,6 +77,10 @@ def get_user_consumption():
         print("Input jam tidak valid. Gunakan default jam 12.")
         hour = 12
 
+    total_kw = submeter_usage["Sub_metering_1"] + submeter_usage["Sub_metering_2"] + submeter_usage["Sub_metering_3"]
+    voltage = 220  # Tegangan standar
+    global_intensity = round((total_kw * 1000) / voltage, 2)
+
     return {
         "Global_intensity": global_intensity,
         "Sub_metering_1": round(submeter_usage["Sub_metering_1"], 2),
@@ -85,7 +88,6 @@ def get_user_consumption():
         "Sub_metering_3": round(submeter_usage["Sub_metering_3"], 2),
         "hour": hour
     }
-
 
 def rule_based_recommendation(pred_kw, usage_kws):
     total_usage = sum(usage_kws.values())
@@ -104,7 +106,7 @@ def rule_based_recommendation(pred_kw, usage_kws):
 
     specific_rec = (
         f"Bagian terberat berasal dari {max_label} "
-        f"(≈{usage_kws[max_sub]:.2f} kWh). "
+        f"(±{usage_kws[max_sub]:.2f} kWh). "
         f"Pertimbangkan mematikan atau mengurangi penggunaan peralatan di {max_label}."
     )
 
@@ -118,18 +120,17 @@ def rule_based_recommendation(pred_kw, usage_kws):
         "specific_recommendation": specific_rec
     }
 
-
 def predict_and_recommend(user_input):
     if "Global_intensity" not in user_input or user_input["Global_intensity"] is None:
-        voltage = 230  # Tegangan standar dalam Volt
+        voltage = 230
         total_kw = (
             user_input["Sub_metering_1"]
             + user_input["Sub_metering_2"]
             + user_input["Sub_metering_3"]
         )
         user_input["Global_intensity"] = (total_kw * 1000) / voltage
-    
-    X_input = np.array([[  # susun urutan sesuai training
+
+    X_input = np.array([[
         user_input["Global_intensity"],
         user_input["Sub_metering_1"],
         user_input["Sub_metering_2"],
@@ -139,7 +140,7 @@ def predict_and_recommend(user_input):
 
     X_scaled_input = X_scaler.transform(X_input)
 
-    seq_length = 48
+    seq_length = 60
     X_seq = np.zeros((1, seq_length, X_scaled_input.shape[1]))
     X_seq[0, -1, :] = X_scaled_input[0]
 
@@ -152,9 +153,7 @@ def predict_and_recommend(user_input):
         "Sub_metering_3": user_input["Sub_metering_3"]
     }
 
-    result = rule_based_recommendation(prediction_kw, usage_kws)
-    return result
-
+    return rule_based_recommendation(prediction_kw, usage_kws)
 
 if __name__ == "__main__":
     user_input = get_user_consumption()

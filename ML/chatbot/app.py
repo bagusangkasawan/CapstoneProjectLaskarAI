@@ -60,8 +60,6 @@ def generate_message():
         print(f"Error occurred: {e}")
         return jsonify({'error': 'Internal server error'}), 500
 
-# ===== Swagger Setup =====
-
 # Swagger UI config
 app.config['SWAGGER_UI_DOC_EXPANSION'] = 'full'
 
@@ -92,7 +90,7 @@ chat_input_model = chat_ns.model('ChatInput', {
     'user_input': fields.String(
         required=True,
         description='Pesan dari pengguna',
-        example='Apa tips menghemat daya saat menggunakan AC?'
+        example='Bagaimana cara menghemat listrik di rumah?'
     )
 })
 
