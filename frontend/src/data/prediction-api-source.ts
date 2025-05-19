@@ -1,6 +1,5 @@
 import type { PredictRequestPayload, PredictResponseData } from "@/model/prediction-models";
-
-const API_BASE_URL = "http://localhost:8080";
+import API_ENDPOINT from "./api-endpoint";
 
 export async function predictEnergyUsage(payload: PredictRequestPayload): Promise<PredictResponseData> {
     const options = {
@@ -11,7 +10,7 @@ export async function predictEnergyUsage(payload: PredictRequestPayload): Promis
         body: JSON.stringify(payload),
     };
     
-    const response = await fetch(`${API_BASE_URL}/api/predict/`, options);
+    const response = await fetch(API_ENDPOINT.PREDICT, options);
 
     if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
