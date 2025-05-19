@@ -3,11 +3,11 @@ import numpy as np
 from tensorflow.keras.models import load_model
 
 # Load model dan scaler
-model = load_model('models/best_model.keras')
-X_scaler = joblib.load("models/X_scaler.save")
+model = load_model('./models/best_model.keras')
+X_scaler = joblib.load("./models/X_scaler.save")
 if hasattr(X_scaler, 'feature_names_in_'):
     del X_scaler.feature_names_in_
-y_scaler = joblib.load("models/y_scaler.save")
+y_scaler = joblib.load("./models/y_scaler.save")
 
 Q1 = 2.50
 Q3 = 5.00
