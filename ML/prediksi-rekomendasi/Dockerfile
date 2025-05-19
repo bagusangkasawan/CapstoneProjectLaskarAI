@@ -1,17 +1,16 @@
-# Gunakan image Python 3.10 sebagai base image
-FROM python:3.10-slim
+# Gunakan image Python sebagai base
+FROM python:3.12-slim
 
-# Set working directory
+# Atur working directory di dalam container
 WORKDIR /app
 
-# Salin file requirements.txt dan install dependencies
-COPY requirements.txt /app/
+# Salin semua file ke dalam container
+COPY . /app
+
+# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Salin seluruh aplikasi ke dalam container
-COPY . /app/
-
-# Expose port 8080 (port default Cloud Run)
+# Ekspos port default Flask
 EXPOSE 8080
 
 # Jalankan aplikasi
