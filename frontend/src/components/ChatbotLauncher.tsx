@@ -11,9 +11,9 @@ export default function ChatbotLauncher() {
         {!isOpen && (
             <button
                 onClick={() => setIsOpen(true)}
-                className="w-24 h-24 fixed bottom-10 right-10 rounded-full p-4 bg-green-600 text-white shadow-lg hover:bg-green-700 cursor-pointer flex items-center justify-center"
-                >
-                <BotMessageSquare size="40"/>
+                className="w-16 h-16 md:w-24 md:h-24 fixed bottom-6 right-6 rounded-full p-3 md:p-4 bg-green-600 text-white shadow-lg hover:bg-green-700 cursor-pointer flex items-center justify-center"
+            >
+                <BotMessageSquare className="w-6 h-6 md:w-10 md:h-10" />
             </button>
         )}
         

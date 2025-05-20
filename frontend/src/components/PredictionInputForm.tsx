@@ -5,6 +5,16 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { predictEnergyUsage } from "@/data/prediction-api-source";
 import type { PredictResponseData } from "@/model/prediction-models";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { TriangleAlert } from "lucide-react";
 
 const appliancePower = {
   "Microwave": 0.8,
@@ -31,10 +41,12 @@ const applianceToSub = {
 };
 
 export default function PredictionInputForm() {
-  const [rows, setRows] = useState([{ device: "", quantity: 1, duration: 1 }]);
-  const [currentHour, setCurrentHour] = useState("");
+  const [rows, setRows] = useState([{ device: "Microwave", quantity: 1, duration: 1 }]);
+  const [currentHour, setCurrentHour] = useState(() => new Date().getHours().toString());
   const [result, setResult] = useState<PredictResponseData | null>(null);
   const [loading, setLoading] = useState(false);
+  const [showWarningDialog, setShowWarningDialog] = useState(false);
+  const [totalUsage, setTotalUsage] = useState(0);
 
   const handleAddRow = () => {
     setRows([...rows, { device: "", quantity: 1, duration: 1 }]);
@@ -51,7 +63,36 @@ export default function PredictionInputForm() {
     setRows(updated);
   };
 
+  const calculateTotalUsage = () => {
+    let sm1 = 0, sm2 = 0, sm3 = 0;
+
+    rows.forEach(row => {
+      const powerPerHour = appliancePower[row.device as keyof typeof appliancePower] || 0;
+      const sub = applianceToSub[row.device as keyof typeof applianceToSub];
+      const usage = powerPerHour * row.quantity * row.duration;
+      
+      if (sub === "Sub_metering_1") sm1 += usage;
+      else if (sub === "Sub_metering_2") sm2 += usage;
+      else if (sub === "Sub_metering_3") sm3 += usage;
+    });
+
+    return sm1 + sm2 + sm3;
+  };
+
   const handlePredict = async () => {
+    const calculatedUsage = calculateTotalUsage();
+    setTotalUsage(calculatedUsage);
+
+    if (calculatedUsage > 5) {
+      setShowWarningDialog(true);
+      return;
+    }
+
+    proceedWithPrediction();
+  };
+
+  const proceedWithPrediction = async () => {
+    setShowWarningDialog(false);
     let sm1 = 0, sm2 = 0, sm3 = 0;
     const hour = parseInt(currentHour);
 
@@ -65,7 +106,7 @@ export default function PredictionInputForm() {
       else if (sub === "Sub_metering_3") sm3 += usage;
     });
 
-    const intensity = ((sm1 + sm2 + sm3) * 1000) / 230;
+    const intensity = Number((((sm1 + sm2 + sm3) * 1000) / 220).toFixed(2));
 
     const payload = {
       Global_intensity: intensity,
@@ -173,15 +214,23 @@ export default function PredictionInputForm() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Jam Sekarang (0 - 23)
+                Jam Prediksi (0 - 23)
               </label>
-              <Input
-                type="number"
-                min="0"
-                max="23"
+              <Select
                 value={currentHour}
-                onChange={(e) => setCurrentHour(e.target.value)}
-              />
+                onValueChange={(value) => setCurrentHour(value)}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Pilih Jam" />
+                </SelectTrigger>
+                <SelectContent>
+                  {Array.from({ length: 24 }, (_, i) => (
+                    <SelectItem key={i} value={i.toString()}>
+                      {i}:00
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             <Button
@@ -204,6 +253,13 @@ export default function PredictionInputForm() {
             {result ? (
               !result.error ? (
                 <div className="space-y-4">
+                  {totalUsage > 5 && (
+                    <Alert variant="destructive" className=" bg-amber-50">
+                      <AlertDescription>
+                        Input melebihi range pelatihan. Hasil mungkin tidak akurat.
+                      </AlertDescription>
+                    </Alert>
+                  )}
                   <div>
                     <h3 className="font-bold text-green-700">Prediction Result</h3>
                     <div className="mt-2 space-y-1">
@@ -244,6 +300,26 @@ export default function PredictionInputForm() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Warning Dialog */}
+      <Dialog open={showWarningDialog} onOpenChange={setShowWarningDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-amber-600"><TriangleAlert/>Peringatan</DialogTitle>
+          </DialogHeader>
+          <DialogDescription className="text-black text-md">
+            Input melebihi range pelatihan (&gt; 5kWh). Hasil mungkin tidak akurat. Lanjutkan prediksi?
+          </DialogDescription>
+          <DialogFooter>
+            <Button size="lg" onClick={() => setShowWarningDialog(false)} className="cursor-pointer bg-green-600 hover:bg-green-700 mr-2">
+              Tidak, kembali
+            </Button>
+            <Button size="lg" onClick={proceedWithPrediction} className="cursor-pointer bg-amber-600 hover:bg-amber-700">
+              Ya, saya mengerti
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
