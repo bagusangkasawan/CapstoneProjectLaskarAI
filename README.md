@@ -37,10 +37,27 @@ energymate/
 
 ## 🧠 Teknologi Inti
 
-- **Frontend:** React (Vite) + ShadCN UI  
-- **Prediksi & Rekomendasi:** Python, TensorFlow, Flask 
-- **Chatbot FAQ:** Vertex AI + Flask  
-- **Deployment:** Netlify (Frontend), Cloud Run (API)
+### 🌐 Frontend
+
+- **React + Vite**
+- **ShadCN UI** untuk komponen antarmuka modern dan responsif
+
+### 🔮 Backend Prediksi & Rekomendasi
+
+- **Flask-RESTX** sebagai REST API framework & Swagger UI
+- **TensorFlow Keras (LSTM)** untuk prediksi konsumsi energi
+- **StandardScaler** untuk normalisasi input
+
+### 🤖 Backend Chatbot FAQ
+
+- **Flask-RESTX** untuk penyediaan API dan dokumentasi Swagger
+- **Google Cloud Vertex AI** (model multilingual fine-tuned FAQ)
+- **Bahasa:** Indonesia & Inggris
+
+### ☁️ Deployment
+
+- **Frontend:** Netlify  
+- **Backend API:** Google Cloud Run
 
 ---
 
