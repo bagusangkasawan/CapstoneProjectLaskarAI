@@ -14,7 +14,8 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { TriangleAlert } from "lucide-react";
+import { AlertCircle, Calculator, ChartNetwork, Lightbulb, TriangleAlert, Zap } from "lucide-react";
+import { Separator } from "./ui/separator";
 
 const appliancePower = {
   "Microwave": 0.8,
@@ -142,10 +143,10 @@ export default function PredictionInputForm() {
       <div className="w-full max-w-6xl flex flex-col md:flex-row gap-6">
         {/* Input Form Card */}
         <Card className="flex-1 p-6 rounded-xl bg-white shadow-lg">
-          <div className="text-center mb-6">
+          <div className="text-center">
             <h1 className="text-2xl font-bold text-green-700">EnergyMate Prediction</h1>
           </div>
-          
+          <Separator/>
           <CardContent className="space-y-4">
             <div className="space-y-4">
               {rows.map((row, index) => (
@@ -238,62 +239,118 @@ export default function PredictionInputForm() {
               onClick={handlePredict}
               disabled={loading}
             >
-              {loading ? "Memproses..." : "Predict & Recommend"}
+              <Calculator/>{loading ? "Memproses..." : "Predict & Recommend"}
             </Button>
           </CardContent>
         </Card>
 
-        {/* Results Card */}
         <Card className="flex-1 p-6 rounded-xl bg-white shadow-lg">
-          <div className="text-center mb-6">
-            <h1 className="text-2xl font-bold text-green-700">Hasil Prediksi</h1>
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-green-700 flex items-center justify-center gap-2">
+              <ChartNetwork className="w-5 h-5" /> Hasil Prediksi
+            </h1>
           </div>
-          
+          <Separator/>
           <CardContent>
             {result ? (
               !result.error ? (
-                <div className="space-y-4">
+                <div className="space-y-6">
                   {totalUsage > 5 && (
-                    <Alert variant="destructive" className=" bg-amber-50">
-                      <AlertDescription>
+                    <Alert variant="destructive" className="bg-amber-50 border-amber-200">
+                      <TriangleAlert className="h-4 w-4 text-amber-600" />
+                      <AlertDescription className="text-amber-700">
                         Input melebihi range pelatihan. Hasil mungkin tidak akurat.
                       </AlertDescription>
                     </Alert>
                   )}
-                  <div>
-                    <h3 className="font-bold text-green-700">Prediction Result</h3>
-                    <div className="mt-2 space-y-1">
-                      <p>Total Pemakaian: <span className="font-medium">{result.total_usage_kw} kWh</span></p>
-                      <p>Prediksi Konsumsi: <span className="font-medium">{result.prediction_kw} kWh</span></p>
-                      <p>Kategori: <span className="font-medium">{result.category}</span></p>
+
+                  {/* Summary Section */}
+                  <div className="bg-green-50 p-4 rounded-lg border border-green-100">
+                    <h3 className="font-bold text-green-700 flex items-center gap-2">
+                      <Zap className="w-4 h-4" /> Ringkasan Konsumsi
+                    </h3>
+                    <div className="mt-3 grid grid-cols-2 gap-3">
+                      <div className="bg-white p-3 rounded-md border">
+                        <p className="text-sm text-gray-500">Total Pemakaian</p>
+                        <p className="text-xl font-bold text-green-600">{result.total_usage_kw} kWh</p>
+                      </div>
+                      <div className="bg-white p-3 rounded-md border">
+                        <p className="text-sm text-gray-500">Prediksi Konsumsi</p>
+                        <p className="text-xl font-bold text-blue-600">{result.prediction_kw} kWh</p>
+                      </div>
+                      <div className="bg-white p-3 rounded-md border col-span-2">
+                        <p className="text-sm text-gray-500 mb-2">Kategori Efisiensi</p>
+                        <p className="text-lg font-bold m-1">
+                          <span className={`px-2 py-1 rounded ${
+                            result.category === "Rendah" 
+                              ? "bg-green-100 text-green-800" 
+                              : result.category === "Sedang" 
+                                ? "bg-amber-100 text-amber-800" 
+                                : "bg-red-100 text-red-800"
+                          }`}>
+                            {result.category}
+                          </span>
+                        </p>
+                      </div>
                     </div>
                   </div>
 
+                  {/* Breakdown Section */}
                   <div>
-                    <h3 className="font-bold text-green-700">Rincian</h3>
-                    <div className="mt-2 space-y-1">
+                    <h3 className="font-bold text-green-700 mb-3">Rincian Konsumsi</h3>
+                    <div className="space-y-2">
                       {Object.entries(result.breakdown || {}).map(([key, val]) => (
-                        <p key={key}>{key}: <span className="font-medium">{val.toFixed(2)} kWh</span></p>
+                        <div key={key} className="flex justify-between items-center bg-gray-50 p-3 rounded">
+                          <span>{key}</span>
+                          <span className="font-medium">{val.toFixed(2)} kWh</span>
+                        </div>
                       ))}
                     </div>
                   </div>
 
-                  <div>
-                    <h3 className="font-bold text-green-700">Recommendation</h3>
-                    <div className="mt-2 space-y-2">
-                      <p><span className="font-medium">Rekomendasi Umum:</span> {result.general_recommendation}</p>
-                      <p><span className="font-medium">Fokus:</span> {result.focus_area}</p>
-                      <p><span className="font-medium">Saran Spesifik:</span> {result.specific_recommendation}</p>
+                  {/* Focus Area Highlight */}
+                  {result.focus_area && (
+                    <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
+                      <h3 className="font-bold text-amber-700 flex items-center gap-2">
+                        <AlertCircle className="w-4 h-4" /> Area Fokus Penghematan
+                      </h3>
+                      <p className="mt-2 font-medium text-amber-800">
+                        Fokuskan pengurangan pada: <span className="underline">{result.focus_area}</span>
+                      </p>
+                      <p className="mt-1 text-sm text-amber-700">
+                        {result.focus_area.includes("Sub_metering_1") && "Termasuk peralatan dapur seperti microwave, rice cooker, dan blender"}
+                        {result.focus_area.includes("Sub_metering_2") && "Termasuk peralatan laundry seperti mesin cuci, pengering, dan setrika"}
+                        {result.focus_area.includes("Sub_metering_3") && "Termasuk peralatan besar seperti AC, water heater, dan vacuum cleaner"}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Recommendations Section */}
+                  <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                    <h3 className="font-bold text-blue-700 flex items-center gap-2">
+                      <Lightbulb className="w-4 h-4" /> Rekomendasi Penghematan
+                    </h3>
+                    <div className="mt-3 space-y-3">
+                      <div>
+                        <h4 className="font-medium text-blue-800">Rekomendasi Umum:</h4>
+                        <p className="text-sm text-blue-700">{result.general_recommendation}</p>
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-blue-800">Saran Spesifik:</h4>
+                        <p className="text-sm text-blue-700">{result.specific_recommendation}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
               ) : (
-                <div className="p-4 bg-red-100 text-red-700 rounded-lg">
+                <div className="p-4 bg-red-100 text-red-700 rounded-lg flex items-center gap-2">
+                  <TriangleAlert className="w-4 h-4" />
                   {result.error}
                 </div>
               )
             ) : (
-              <div className="text-center py-8 text-gray-500">
+              <div className="text-center py-8 text-gray-500 flex flex-col items-center">
+                <Lightbulb className="w-8 h-8 mb-2 text-gray-400" />
                 <p>Hasil prediksi akan muncul di sini setelah Anda mengklik "Predict & Recommend"</p>
               </div>
             )}
