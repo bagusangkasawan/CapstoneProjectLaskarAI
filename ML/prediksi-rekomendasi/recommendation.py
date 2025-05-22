@@ -56,18 +56,10 @@ def get_user_consumption():
             print("Jumlah tidak valid, gunakan default 1 unit.")
             count = 1
 
-        try:
-            hours = float(input(f"Durasi pemakaian '{item}' per unit (jam): "))
-            if hours < 0:
-                raise ValueError
-        except ValueError:
-            print("Durasi tidak valid, gunakan default 1 jam.")
-            hours = 1.0
-
-        energy_kwh = power * count * hours
+        energy_kwh = power * count
         sub_key = appliance_to_sub.get(item, "Sub_metering_1")
         submeter_usage[sub_key] += energy_kwh
-        print(f"► {item}: {count} × {power} kW × {hours} jam = {energy_kwh:.2f} kWh pada {sub_key}\n")
+        print(f"► {item}: {count} × {power} kW = {energy_kwh:.2f} kWh pada {sub_key}\n")
 
     try:
         hour = int(input("Jam sekarang (0-23): "))
@@ -78,7 +70,7 @@ def get_user_consumption():
         hour = 12
 
     total_kw = submeter_usage["Sub_metering_1"] + submeter_usage["Sub_metering_2"] + submeter_usage["Sub_metering_3"]
-    voltage = 220  # Tegangan standar
+    voltage = 230  # Tegangan standar
     global_intensity = round((total_kw * 1000) / voltage, 2)
 
     return {
@@ -121,39 +113,38 @@ def rule_based_recommendation(pred_kw, usage_kws):
     }
 
 def predict_and_recommend(user_input):
-    if "Global_intensity" not in user_input or user_input["Global_intensity"] is None:
-        voltage = 230
-        total_kw = (
-            user_input["Sub_metering_1"]
-            + user_input["Sub_metering_2"]
-            + user_input["Sub_metering_3"]
-        )
-        user_input["Global_intensity"] = (total_kw * 1000) / voltage
+    # hitung global_intensity jika belum ada
+    if user_input.get("Global_intensity") is None:
+        total_kw = (user_input["Sub_metering_1"] +
+                    user_input["Sub_metering_2"] +
+                    user_input["Sub_metering_3"])
+        user_input["Global_intensity"] = (total_kw * 1000) / 230
 
-    X_input = np.array([[
+    X_input = np.array([
         user_input["Global_intensity"],
         user_input["Sub_metering_1"],
         user_input["Sub_metering_2"],
         user_input["Sub_metering_3"],
         user_input["hour"]
-    ]])
+    ])
 
-    X_scaled_input = X_scaler.transform(X_input)
+    past_60_input = np.tile(X_input, (60, 1))
 
-    seq_length = 60
-    X_seq = np.zeros((1, seq_length, X_scaled_input.shape[1]))
-    X_seq[0, -1, :] = X_scaled_input[0]
+    X_scaled_sequence = X_scaler.transform(past_60_input)
 
-    prediction_scaled = model.predict(X_seq, verbose=0)[0][0]
-    prediction_kw = y_scaler.inverse_transform([[prediction_scaled]])[0][0]
+
+    X_seq = X_scaled_sequence.reshape(1, 60, -1)
+
+    pred_scaled = model.predict(X_seq, verbose=0)[0][0]
+    pred_kw = y_scaler.inverse_transform([[pred_scaled]])[0][0]
 
     usage_kws = {
         "Sub_metering_1": user_input["Sub_metering_1"],
         "Sub_metering_2": user_input["Sub_metering_2"],
         "Sub_metering_3": user_input["Sub_metering_3"]
     }
+    return rule_based_recommendation(pred_kw, usage_kws)
 
-    return rule_based_recommendation(prediction_kw, usage_kws)
 
 if __name__ == "__main__":
     user_input = get_user_consumption()
