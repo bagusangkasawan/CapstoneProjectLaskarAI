@@ -1,6 +1,12 @@
 import { BarChart3, Lightbulb, Timer } from "lucide-react";
 import { Link } from "react-router";
 import { motion } from "framer-motion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 // Animation variants
 const container = {
@@ -26,6 +32,21 @@ const imageAnim = {
 const textAnim = {
   hidden: { opacity: 0, x: 50 },
   show: { opacity: 1, x: 0, transition: { duration: 0.8 } }
+};
+
+const accordionContainer = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2
+    }
+  }
+};
+
+const accordionItem = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 }
 };
 
 export default function HomePage() {
@@ -160,6 +181,85 @@ export default function HomePage() {
                 </motion.p>
             </motion.div>
         </section>
+
+        <motion.section 
+        className="px-8 bg-white"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "-100px" }}
+        >
+        <div className="max-w-6xl mx-auto px-6 lg:px-8 py-16">
+            <motion.h2 
+            className="text-3xl font-bold text-center mb-10 text-gray-800"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            >
+            Pertanyaan Umum (FAQ)
+            </motion.h2>
+            
+            <motion.div
+            variants={accordionContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            >
+            <Accordion type="multiple" className="space-y-4">
+                <motion.div variants={accordionItem}>
+                <AccordionItem value="item-1">
+                    <AccordionTrigger className="text-xl font-medium cursor-pointer">
+                    Apa itu EnergyMate?
+                    </AccordionTrigger>
+                    <AccordionContent className="text-lg text-gray-600">
+                    EnergyMate adalah platform pemantauan konsumsi listrik yang
+                    membantu pengguna memahami penggunaan energi rumah tangga dan
+                    memberikan rekomendasi untuk efisiensi.
+                    </AccordionContent>
+                </AccordionItem>
+                </motion.div>
+
+                <motion.div variants={accordionItem}>
+                <AccordionItem value="item-2">
+                    <AccordionTrigger className="text-xl font-medium cursor-pointer">
+                    Bagaimana sistem rekomendasi bekerja?
+                    </AccordionTrigger>
+                    <AccordionContent className="text-lg text-gray-600">
+                    Sistem menggunakan model machine learning untuk memprediksi
+                    konsumsi energi berdasarkan input pengguna, lalu memberikan
+                    saran berdasarkan kategori dan fokus beban tertinggi.
+                    </AccordionContent>
+                </AccordionItem>
+                </motion.div>
+
+                <motion.div variants={accordionItem}>
+                <AccordionItem value="item-3">
+                    <AccordionTrigger className="text-xl font-medium cursor-pointer">
+                    Apakah EnergyMate dapat digunakan secara gratis?
+                    </AccordionTrigger>
+                    <AccordionContent className="text-lg text-gray-600">
+                    EnergyMate dapat digunakan secara gratis untuk
+                    kebutuhan rumah tangga dan edukasi.
+                    </AccordionContent>
+                </AccordionItem>
+                </motion.div>
+
+                <motion.div variants={accordionItem}>
+                <AccordionItem value="item-4">
+                    <AccordionTrigger className="text-xl font-medium cursor-pointer">
+                    Apakah data saya disimpan atau digunakan untuk hal lain?
+                    </AccordionTrigger>
+                    <AccordionContent className="text-lg text-gray-600">
+                    Tidak. EnergyMate tidak menyimpan data pribadi atau input Anda.
+                    Semua data diproses dan dikirim anonim ke model tanpa penyimpanan
+                    untuk prediksi.
+                    </AccordionContent>
+                </AccordionItem>
+                </motion.div>
+            </Accordion>
+            </motion.div>
+        </div>
+        </motion.section>
         </>
     )
 }
