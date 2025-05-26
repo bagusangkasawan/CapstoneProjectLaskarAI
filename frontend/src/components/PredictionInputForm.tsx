@@ -14,7 +14,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle, Calculator, ChartNetwork, Lightbulb, TriangleAlert, Zap } from "lucide-react";
+import { AlertCircle, Calculator, ChartNetwork, Clock, Info, Lightbulb, Timer, TrendingUp, TriangleAlert, Zap } from "lucide-react";
 import { Separator } from "./ui/separator";
 
 const appliancePower = {
@@ -42,15 +42,16 @@ const applianceToSub = {
 };
 
 export default function PredictionInputForm() {
-  const [rows, setRows] = useState([{ device: "Microwave", quantity: 1, duration: 1 }]);
+  const [rows, setRows] = useState([{ device: "Microwave", quantity: 1 }]);
   const [currentHour, setCurrentHour] = useState(() => new Date().getHours().toString());
   const [result, setResult] = useState<PredictResponseData | null>(null);
   const [loading, setLoading] = useState(false);
   const [showWarningDialog, setShowWarningDialog] = useState(false);
   const [totalUsage, setTotalUsage] = useState(0);
+  const [showLoadingNotice, setShowLoadingNotice] = useState(false);
 
   const handleAddRow = () => {
-    setRows([...rows, { device: "", quantity: 1, duration: 1 }]);
+    setRows([...rows, { device: "", quantity: 1 }]);
   };
 
   const handleRemoveRow = (index: number) => {
@@ -70,7 +71,7 @@ export default function PredictionInputForm() {
     rows.forEach(row => {
       const powerPerHour = appliancePower[row.device as keyof typeof appliancePower] || 0;
       const sub = applianceToSub[row.device as keyof typeof applianceToSub];
-      const usage = powerPerHour * row.quantity * row.duration;
+      const usage = powerPerHour * row.quantity;
       
       if (sub === "Sub_metering_1") sm1 += usage;
       else if (sub === "Sub_metering_2") sm2 += usage;
@@ -97,10 +98,15 @@ export default function PredictionInputForm() {
     let sm1 = 0, sm2 = 0, sm3 = 0;
     const hour = parseInt(currentHour);
 
+    // Show loading notice after 3 seconds
+    const loadingTimer = setTimeout(() => {
+      setShowLoadingNotice(true);
+    }, 3000);
+
     rows.forEach(row => {
       const powerPerHour = appliancePower[row.device as keyof typeof appliancePower] || 0;
       const sub = applianceToSub[row.device as keyof typeof applianceToSub];
-      const usage = powerPerHour * row.quantity * row.duration;
+      const usage = powerPerHour * row.quantity;
       
       if (sub === "Sub_metering_1") sm1 += usage;
       else if (sub === "Sub_metering_2") sm2 += usage;
@@ -134,6 +140,8 @@ export default function PredictionInputForm() {
         breakdown: {}
       });
     } finally {
+      clearTimeout(loadingTimer);
+      setShowLoadingNotice(false);
       setLoading(false);
     }
   };
@@ -179,7 +187,7 @@ export default function PredictionInputForm() {
                       onChange={(e) => handleRowChange(index, "quantity", e.target.value)}
                     />
                   </div>
-
+{/* 
                   <div className="w-24">
                     <label className="block text-sm font-medium text-gray-700 mb-1">Durasi (jam)</label>
                     <Input
@@ -189,7 +197,7 @@ export default function PredictionInputForm() {
                       value={row.duration}
                       onChange={(e) => handleRowChange(index, "duration", e.target.value)}
                     />
-                  </div>
+                  </div> */}
 
                   <div className="h-10 flex items-end">
                     <Button
@@ -239,7 +247,7 @@ export default function PredictionInputForm() {
               onClick={handlePredict}
               disabled={loading}
             >
-              <Calculator/>{loading ? "Memproses..." : "Predict & Recommend"}
+              <Calculator/>{loading ? "Memproses..." : "Prediksi & Rekomendasi"}
             </Button>
           </CardContent>
         </Card>
@@ -265,23 +273,60 @@ export default function PredictionInputForm() {
                   )}
 
                   {/* Summary Section */}
-                  <div className="bg-green-50 p-4 rounded-lg border border-green-100">
-                    <h3 className="font-bold text-green-700 flex items-center gap-2">
-                      <Zap className="w-4 h-4" /> Ringkasan Konsumsi
+                  <div className="bg-gradient-to-r from-green-50 to-green-50 p-5 rounded-xl border border-green-200 shadow-sm">
+                    <h3 className="font-bold text-green-700 flex items-center gap-2 text-lg">
+                      <Zap className="w-5 h-5 text-green-600" /> Ringkasan Konsumsi Energi
                     </h3>
-                    <div className="mt-3 grid grid-cols-2 gap-3">
-                      <div className="bg-white p-3 rounded-md border">
-                        <p className="text-sm text-gray-500">Total Pemakaian</p>
-                        <p className="text-xl font-bold text-green-600">{result.total_usage_kw} kWh</p>
+                    
+                    <div className="mt-4 grid grid-cols-2 gap-4">
+                      {/* Current Usage Card */}
+                      <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-xs hover:shadow-sm transition-shadow">
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">Total Pemakaian</p>
+                            <p className="text-sm text-gray-600 flex items-center gap-1 mt-1">
+                              <Timer className="w-4 h-4 text-gray-400" />
+                              <span>Saat Ini</span>
+                            </p>
+                          </div>
+                          <div className="bg-green-100 p-1 rounded-full">
+                            <Zap className="w-4 h-4 text-green-600" />
+                          </div>
+                        </div>
+                        <p className="text-2xl font-bold text-green-700 mt-2">
+                          {result.total_usage_kw} <span className="text-sm font-normal text-gray-500">kWh</span>
+                        </p>
                       </div>
-                      <div className="bg-white p-3 rounded-md border">
-                        <p className="text-sm text-gray-500">Prediksi Konsumsi</p>
-                        <p className="text-xl font-bold text-blue-600">{result.prediction_kw} kWh</p>
+
+                      {/* Predicted Usage Card */}
+                      <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-xs hover:shadow-sm transition-shadow">
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">Prediksi Konsumsi</p>
+                            <p className="text-sm text-gray-600 flex items-center gap-1 mt-1">
+                              <Clock className="w-4 h-4 text-gray-400" />
+                              <span>1 Jam ke Depan</span>
+                            </p>
+                          </div>
+                          <div className="bg-blue-100 p-1 rounded-full">
+                            <TrendingUp className="w-4 h-4 text-blue-600" />
+                          </div>
+                        </div>
+                        <p className="text-2xl font-bold text-blue-700 mt-2">
+                          {result.prediction_kw} <span className="text-sm font-normal text-gray-500">kWh</span>
+                        </p>
                       </div>
-                      <div className="bg-white p-3 rounded-md border col-span-2">
-                        <p className="text-sm text-gray-500 mb-2">Kategori Efisiensi</p>
-                        <p className="text-lg font-bold m-1">
-                          <span className={`px-2 py-1 rounded ${
+
+                      {/* Efficiency Category Card */}
+                      <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-xs hover:shadow-sm transition-shadow col-span-2">
+                        <div className="flex justify-between items-center">
+                          <div>
+                            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">Kategori Efisiensi</p>
+                            <p className="text-sm text-gray-600 mt-1">
+                              Status penggunaan energi Anda
+                            </p>
+                          </div>
+                          <div className={`px-3 py-1.5 rounded-full text-sm font-semibold ${
                             result.category === "Rendah" 
                               ? "bg-green-100 text-green-800" 
                               : result.category === "Sedang" 
@@ -289,8 +334,18 @@ export default function PredictionInputForm() {
                                 : "bg-red-100 text-red-800"
                           }`}>
                             {result.category}
+                          </div>
+                        </div>
+                        <div className="mt-3 flex items-center gap-2 text-sm text-gray-600">
+                          <Info className="w-4 h-4 text-gray-400" />
+                          <span>
+                            {result.category === "Rendah" 
+                              ? "Penggunaan energi efisien" 
+                              : result.category === "Sedang" 
+                                ? "Penggunaan energi cukup efisien" 
+                                : "Penggunaan energi perlu diperbaiki"}
                           </span>
-                        </p>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -377,6 +432,18 @@ export default function PredictionInputForm() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {showLoadingNotice && (
+        <div className="fixed top-25 left-1/2 transform -translate-x-1/2">
+          <Alert className="bg-green-50 border-green-200 text-amber-600 flex items-center gap-2 shadow-lg">
+            <TriangleAlert className="w-4 h-4" />
+            <AlertDescription className="font-bold">
+              Permintaan pertama mungkin membutuhkan waktu lebih lama, harap tunggu...(estimasi ~1 menit)
+            </AlertDescription>
+            <TriangleAlert className="w-4 h-4" />
+          </Alert>
+        </div>
+      )}
     </div>
   );
 }
