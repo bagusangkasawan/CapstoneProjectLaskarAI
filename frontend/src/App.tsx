@@ -5,7 +5,6 @@ import HomePage from "./pages/HomePage";
 import ChatbotLauncher from "./components/ChatbotLauncher";
 import AboutPage from "./pages/AboutPage";
 import BlogPage from "./pages/BlogPage";
-import ContactPage from "./pages/ContactPage";
 import FeaturePage from "./pages/FeaturePage";
 
 export default function App() {
@@ -18,7 +17,6 @@ export default function App() {
           <Route path="/feature" element={<FeaturePage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/contact" element={<ContactPage />} />
         </Routes>
         <ChatbotLauncher />
       </main>

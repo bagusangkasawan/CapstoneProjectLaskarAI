@@ -28,7 +28,7 @@ const titleAnim = {
 
 export default function Contact() {
     return (
-        <div className="max-w-5xl mx-auto px-4 py-12 space-y-10">
+        <div className="max-w-5xl mx-auto px-4 pb-10">
             <motion.section
                 initial="hidden"
                 whileInView="show"

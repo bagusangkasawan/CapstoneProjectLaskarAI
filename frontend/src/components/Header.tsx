@@ -23,7 +23,6 @@ export default function Header() {
           <Link to="/feature" className="hover:text-green-600 transition-colors">Fitur</Link>
           <Link to="/blog" className="hover:text-green-600 transition-colors">Blog</Link>
           <Link to="/about" className="hover:text-green-600 transition-colors">Tentang</Link>
-          <Link to="/contact" className="hover:text-green-600 transition-colors">Kontak</Link>
         </nav>
 
         {/* Mobile Menu Button */}
@@ -43,7 +42,6 @@ export default function Header() {
           <Link to="/feature" className="block w-full px-6 py-3 hover:text-green-600 hover:bg-green-50 transition-colors">Fitur</Link>
           <Link to="/blog" className="block w-full px-6 py-3 hover:text-green-600 hover:bg-green-50 transition-colors">Blog</Link>
           <Link to="/about" className="block w-full px-6 py-3 hover:text-green-600 hover:bg-green-50 transition-colors">Tentang</Link>
-          <Link to="/contact" className="block w-full px-6 py-3 hover:text-green-600 hover:bg-green-50 transition-colors">Kontak</Link>
         </nav>
       )}
     </header>
