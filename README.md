@@ -72,10 +72,10 @@ Tim ini terdiri dari 4 anggota yang bekerja kolaboratif untuk membangun solusi b
 
 Tim **LAI25-SM004 – EnergyMate**:
 
-- 👨‍💻 [Bagus Angkasawan Sumantri Putra (A640YBM091)](https://www.linkedin.com/in/bagus-angkasawan-sumantri-putra/) - Universitas Pramita Indonesia
+- 👨‍💻 [Bagus Angkasawan Sumantri Putra](https://www.linkedin.com/in/bagus-angkasawan-sumantri-putra/) (A640YBM091) - Universitas Pramita Indonesia
 
-- 👨‍💻 [Muhammad Gilang Ramadhan (A640YBM323)](https://www.linkedin.com/in/muhammad-gilang-ramadhan-0754a4266/) - Universitas Pramita Indonesia
+- 👨‍💻 [Muhammad Gilang Ramadhan](https://www.linkedin.com/in/muhammad-gilang-ramadhan-0754a4266/) (A640YBM323) - Universitas Pramita Indonesia
 
-- 👨‍💻 [Bima Adityo Kurniawan (A229YBF097)](https://www.linkedin.com/in/bimaadityokurniawan/) - Universitas Jenderal Soedirman (Fresh Graduate)
+- 👨‍💻 [Bima Adityo Kurniawan](https://www.linkedin.com/in/bimaadityokurniawan/) (A229YBF097) - Universitas Jenderal Soedirman (Fresh Graduate)
 
-- 👩‍💻 [Auliyya Aini (A229XBF084)](https://www.linkedin.com/in/auliyyaaini/) - Universitas Jenderal Soedirman (Fresh Graduate)
+- 👩‍💻 [Auliyya Aini](https://www.linkedin.com/in/auliyyaaini/) (A229XBF084) - Universitas Jenderal Soedirman (Fresh Graduate)
