@@ -13,28 +13,50 @@ Q1 = 2.50
 Q3 = 5.00
 
 SUB_LABELS = {
-    "Sub_metering_1": "Dapur",
-    "Sub_metering_2": "Laundry",
-    "Sub_metering_3": "Water Heater & AC"
+    "Sub_metering_1": "Peralatan Dapur & Elektronik Kecil",
+    "Sub_metering_2": "Peralatan Laundry & Pemanas",
+    "Sub_metering_3": "Pendingin, Penerangan & Pembersih"
 }
 
 def get_user_consumption():
-    appliance_power = {
-        "microwave": 0.8,
-        "rice cooker": 0.6,
-        "blender": 0.3,
-        "washing machine": 1.0,
-        "dryer": 1.2,
-        "iron": 1.1,
-        "water heater": 1.5,
-        "ac": 1.3,
-        "vacuum cleaner": 0.9
+    appliance_power_watt = {
+        "microwave": 1000,
+        "penanak nasi": 300,
+        "blender": 250,
+        "dispenser air": 200,
+        "pemanggang roti": 850,
+
+        "mesin cuci": 500,
+        "mesin pengering": 3000,
+        "setrika": 1000,
+        "pompa air": 750,
+        "pengering rambut": 600,
+
+        "pemanas air": 1500,
+        "AC": 800,
+        "penyedot debu": 1200,
+        "kipas angin": 100,
+        "lampu LED": 20
     }
 
     appliance_to_sub = {
-        "microwave": "Sub_metering_1", "rice cooker": "Sub_metering_1", "blender": "Sub_metering_1",
-        "washing machine": "Sub_metering_2", "dryer": "Sub_metering_2", "iron": "Sub_metering_2",
-        "water heater": "Sub_metering_3", "ac": "Sub_metering_3", "vacuum cleaner": "Sub_metering_3"
+        "microwave": "Sub_metering_1",
+        "penanak nasi": "Sub_metering_1",
+        "blender": "Sub_metering_1",
+        "dispenser air": "Sub_metering_1",
+        "pemanggang roti": "Sub_metering_1",
+
+        "mesin cuci": "Sub_metering_2",
+        "mesin pengering": "Sub_metering_2",
+        "setrika": "Sub_metering_2",
+        "pompa air": "Sub_metering_2",
+        "pengering rambut": "Sub_metering_2",
+
+        "pemanas air": "Sub_metering_3",
+        "AC": "Sub_metering_3",
+        "penyedot debu": "Sub_metering_3",
+        "kipas angin": "Sub_metering_3",
+        "lampu LED": "Sub_metering_3"
     }
 
     submeter_usage = {"Sub_metering_1": 0.0, "Sub_metering_2": 0.0, "Sub_metering_3": 0.0}
@@ -44,9 +66,17 @@ def get_user_consumption():
         if item == "selesai":
             break
 
-        power = appliance_power.get(item, 0.02)
-        if item not in appliance_power:
-            print(f"Alat '{item}' tidak dikenali, gunakan daya default 0.02 kW.")
+        try:
+            watt = float(input(f"Masukkan daya '{item}' dalam watt (atau tekan Enter untuk default): ") or -1)
+        except ValueError:
+            watt = -1
+
+        if watt <= 0:
+            watt = appliance_power_watt.get(item, 20)
+            if item not in appliance_power_watt:
+                print(f"Alat '{item}' tidak dikenali, gunakan daya default 20 watt.")
+            else:
+                print(f"Gunakan daya default {watt} watt untuk '{item}'.")
 
         try:
             count = int(input(f"Jumlah unit '{item}': "))
@@ -56,10 +86,11 @@ def get_user_consumption():
             print("Jumlah tidak valid, gunakan default 1 unit.")
             count = 1
 
-        energy_kwh = power * count
+        energy_kwh = (watt * count) / 1000
         sub_key = appliance_to_sub.get(item, "Sub_metering_1")
         submeter_usage[sub_key] += energy_kwh
-        print(f"► {item}: {count} × {power} kW = {energy_kwh:.2f} kWh pada {sub_key}\n")
+
+        print(f"► {item}: {count} × {watt} watt = {energy_kwh:.2f} kWh pada {sub_key}\n")
 
     try:
         hour = int(input("Jam sekarang (0-23): "))
@@ -69,8 +100,8 @@ def get_user_consumption():
         print("Input jam tidak valid. Gunakan default jam 12.")
         hour = 12
 
-    total_kw = submeter_usage["Sub_metering_1"] + submeter_usage["Sub_metering_2"] + submeter_usage["Sub_metering_3"]
-    voltage = 230  # Tegangan standar
+    total_kw = sum(submeter_usage.values())
+    voltage = 230
     global_intensity = round((total_kw * 1000) / voltage, 2)
 
     return {
@@ -80,6 +111,7 @@ def get_user_consumption():
         "Sub_metering_3": round(submeter_usage["Sub_metering_3"], 2),
         "hour": hour
     }
+
 
 def rule_based_recommendation(pred_kw, usage_kws):
     total_usage = sum(usage_kws.values())

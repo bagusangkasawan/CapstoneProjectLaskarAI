@@ -1,361 +1,449 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>EnergyMate</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: "Poppins", sans-serif;
-      background: linear-gradient(135deg, #673ab7, #ff9800);
-      margin: 0;
-      padding: 0;
-      color: #333;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-    }
-    .container {
-      background-color: #fff;
-      padding: 30px 40px;
-      border-radius: 12px;
-      max-width: 600px;
-      width: 100%;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #8e24aa;
-      font-weight: 600;
-    }
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: 500;
-    }
-    input[type=number], select {
-      width: 100%;
-      padding: 10px;
-      border: 2px solid #ddd;
-      border-radius: 8px;
-      outline: none;
-      font-family: "Poppins", sans-serif;
-      box-sizing: border-box;
-    }
-    .alat-row {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-      gap: 10px;
-    }
-    .alat-row select {
-      flex-grow: 1;
-    }
-    .alat-row .qty-input {
-      width: 80px;
-    }
-    .remove-btn {
-      background: #ff5722;
-      border: none;
-      color: white;
-      font-weight: bold;
-      padding: 8px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 14px;
-      transition: background-color 0.3s ease;
-    }
-    .remove-btn:hover {
-      background: #e64a19;
-    }
-    #addAlatBtn {
-      background: #4caf50;
-      color: white;
-      border: none;
-      padding: 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: bold;
-      margin-bottom: 15px;
-      display: block;
-      width: 100%;
-      transition: background-color 0.3s ease;
-    }
-    #addAlatBtn:hover {
-      background: #388e3c;
-    }
-    button.predict-btn {
-      background: #ff5722;
-      border: none;
-      color: white;
-      padding: 12px;
-      margin-top: 12px;
-      width: 100%;
-      font-size: 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background-color 0.3s ease;
-    }
-    button.predict-btn:hover {
-      background: #e64a19;
-    }
-    #result {
-      margin-top: 20px;
-      background-color: #f3f3f3;
-      padding: 15px;
-      border-radius: 8px;
-      display: none;
-    }
-    #result h3 {
-      margin-top: 0;
-      color: #4a148c;
-    }
-    #result ul {
-      padding-left: 20px;
-    }
-  </style>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EnergyMate</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #673ab7, #ff9800);
+        margin: 0;
+        padding: 0;
+        color: #333;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+      }
+      .container {
+        background-color: #fff;
+        padding: 30px 40px;
+        border-radius: 12px;
+        max-width: 600px;
+        width: 100%;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      }
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #8e24aa;
+        font-weight: 600;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 500;
+      }
+      input[type="number"],
+      select {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        outline: none;
+        font-family: "Poppins", sans-serif;
+        box-sizing: border-box;
+      }
+      .alat-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        gap: 10px;
+      }
+      .alat-row select {
+        flex-grow: 1;
+      }
+      .alat-row .qty-input {
+        width: 80px;
+      }
+      .remove-btn {
+        background: #ff5722;
+        border: none;
+        color: white;
+        font-weight: bold;
+        padding: 8px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+      }
+      .remove-btn:hover {
+        background: #e64a19;
+      }
+      #addAlatBtn {
+        background: #4caf50;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        display: block;
+        width: 100%;
+        transition: background-color 0.3s ease;
+      }
+      #addAlatBtn:hover {
+        background: #388e3c;
+      }
+      button.predict-btn {
+        background: #ff5722;
+        border: none;
+        color: white;
+        padding: 12px;
+        margin-top: 12px;
+        width: 100%;
+        font-size: 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+      }
+      button.predict-btn:hover {
+        background: #e64a19;
+      }
+      #result {
+        margin-top: 20px;
+        background-color: #f3f3f3;
+        padding: 15px;
+        border-radius: 8px;
+        display: none;
+      }
+      #result h3 {
+        margin-top: 0;
+        color: #4a148c;
+      }
+      #result ul {
+        padding-left: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>⚡ EnergyMate Prediction</h2>
 
-<div class="container">
-  <h2>⚡ EnergyMate Prediction</h2>
+      <form id="predictForm">
+        <div class="input-group">
+          <label>Alat Listrik yang Sedang Digunakan</label>
+          <div id="alatContainer">
+            <!-- Dropdown alat akan ditambahkan di sini -->
+          </div>
+          <button type="button" id="addAlatBtn">Tambah Alat</button>
+        </div>
 
-  <form id="predictForm">
-    <div class="input-group">
-      <label>Alat Listrik yang Sedang Digunakan</label>
-      <div id="alatContainer">
-        <!-- Dropdown alat akan ditambahkan di sini -->
+        <div class="input-group">
+          <label for="hour">Jam Sekarang (0-23)</label>
+          <input
+            type="number"
+            id="hour"
+            name="hour"
+            min="0"
+            max="23"
+            required
+          />
+        </div>
+
+        <button type="submit" class="predict-btn">
+          Prediksi dan Berikan Rekomendasi
+        </button>
+      </form>
+
+      <div id="result">
+        <h3>Hasil Prediksi</h3>
+        <div
+          id="warningAlert"
+          style="
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #ffeeba;
+            display: none;
+          "
+        >
+          <strong>⚠️ Peringatan:</strong> Input melebihi range pelatihan. Hasil
+          mungkin tidak akurat.
+        </div>
+        <p>
+          <strong>Total Konsumsi Saat Ini:</strong>
+          <span id="totalUsage">0</span> kWh
+        </p>
+        <p>
+          <strong>Prediksi Konsumsi untuk 1 Jam ke Depan:</strong>
+          <span id="prediksi">0</span> kWh
+        </p>
+        <p><strong>Kategori Penggunaan:</strong> <span id="kategori"></span></p>
+        <p><strong>Fokus Area:</strong> <span id="fokusArea"></span></p>
+        <p><strong>Rincian Konsumsi per Area:</strong></p>
+        <ul id="breakdownList"></ul>
+        <p><strong>Rekomendasi Umum:</strong> <span id="rekomUmum"></span></p>
+        <p>
+          <strong>Rekomendasi Spesifik:</strong>
+          <span id="rekomSpesifik"></span>
+        </p>
       </div>
-      <button type="button" id="addAlatBtn">Tambah Alat</button>
     </div>
 
-    <div class="input-group">
-      <label for="hour">Jam Sekarang (0-23)</label>
-      <input type="number" id="hour" name="hour" min="0" max="23" required />
-    </div>
+    <script>
+      const dayaAlat = {
+        microwave: 1000,
+        "penanak nasi": 300,
+        blender: 250,
+        "dispenser air": 450,
+        "pemanggang roti": 800,
+        "mesin cuci": 500,
+        "mesin pengering": 3000,
+        setrika: 1000,
+        "pompa air": 750,
+        "pengering rambut": 1200,
+        "pemanas air": 1500,
+        AC: 800,
+        "penyedot debu": 1200,
+        "kipas angin": 100,
+        "lampu LED": 20,
+      };
 
-    <button type="submit" class="predict-btn">Prediksi dan Berikan Rekomendasi</button>
-  </form>
+      const kelompok = {
+        microwave: "Sub_metering_1",
+        "penanak nasi": "Sub_metering_1",
+        blender: "Sub_metering_1",
+        "dispenser air": "Sub_metering_1",
+        "pemanggang roti": "Sub_metering_1",
+        "mesin cuci": "Sub_metering_2",
+        "mesin pengering": "Sub_metering_2",
+        setrika: "Sub_metering_2",
+        "pompa air": "Sub_metering_2",
+        "pengering rambut": "Sub_metering_2",
+        "pemanas air": "Sub_metering_3",
+        AC: "Sub_metering_3",
+        "penyedot debu": "Sub_metering_3",
+        "kipas angin": "Sub_metering_3",
+        "lampu LED": "Sub_metering_3",
+      };
 
-  <div id="result">
-    <h3>Hasil Prediksi</h3>
-    <div id="warningAlert" style="background-color: #fff3cd; color: #856404; padding: 10px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #ffeeba; display: none;">
-      <strong>⚠️ Peringatan:</strong> Input melebihi range pelatihan. Hasil mungkin tidak akurat.
-    </div>
-    <p><strong>Total Konsumsi Saat Ini:</strong> <span id="totalUsage">0</span> kWh</p>
-    <p><strong>Prediksi Konsumsi untuk 1 Jam ke Depan:</strong> <span id="prediksi">0</span> kWh</p>
-    <p><strong>Kategori Penggunaan:</strong> <span id="kategori"></span></p>
-    <p><strong>Fokus Area:</strong> <span id="fokusArea"></span></p>
-    <p><strong>Rincian Konsumsi per Area:</strong></p>
-    <ul id="breakdownList"></ul>
-    <p><strong>Rekomendasi Umum:</strong> <span id="rekomUmum"></span></p>
-    <p><strong>Rekomendasi Spesifik:</strong> <span id="rekomSpesifik"></span></p>
-  </div>
-</div>
+      const alatContainer = document.getElementById("alatContainer");
+      const addAlatBtn = document.getElementById("addAlatBtn");
 
-<script>
-  const dayaAlat = {
-    "microwave": 1000,
-    "rice cooker": 300,
-    "blender": 250,
-    "washing machine": 500,
-    "dryer": 3000,
-    "iron": 1000,
-    "water heater": 1500,
-    "ac": 800,
-    "vacuum cleaner": 1200
-  };
+      // Fungsi buat dropdown alat dengan input jumlah dan tombol hapus
+      function buatDropdownAlat() {
+        const div = document.createElement("div");
+        div.className = "alat-row";
 
-  const kelompok = {
-    "microwave": "Sub_metering_1",
-    "rice cooker": "Sub_metering_1",
-    "blender": "Sub_metering_1",
-    "washing machine": "Sub_metering_2",
-    "dryer": "Sub_metering_2",
-    "iron": "Sub_metering_2",
-    "water heater": "Sub_metering_3",
-    "ac": "Sub_metering_3",
-    "vacuum cleaner": "Sub_metering_3"
-  };
+        // Buat dropdown alat
+        const select = document.createElement("select");
+        select.required = true;
+        const optDefault = document.createElement("option");
+        optDefault.value = "";
+        optDefault.textContent = "Pilih Alat";
+        select.appendChild(optDefault);
 
-  const alatContainer = document.getElementById("alatContainer");
-  const addAlatBtn = document.getElementById("addAlatBtn");
+        const labelAlat = {
+          microwave: "Microwave",
+          "penanak nasi": "Penanak Nasi (Rice Cooker)",
+          blender: "Blender",
+          "dispenser air": "Dispenser Air (Water Dispenser)",
+          "pemanggang roti": "Pemanggang Roti (Toaster)",
+          "mesin cuci": "Mesin Cuci (Washing Machine)",
+          "mesin pengering": "Mesin Pengering (Dryer)",
+          setrika: "Setrika (Iron)",
+          "pompa air": "Pompa Air (Water Pump)",
+          "pengering rambut": "Pengering Rambut (Hair Dryer)",
+          "pemanas air": "Pemanas Air (Water Heater)",
+          AC: "AC (Air Conditioner)",
+          "penyedot debu": "Penyedot Debu (Vacuum Cleaner)",
+          "kipas angin": "Kipas Angin (Fan)",
+          "lampu LED": "Lampu LED (LED Light)",
+        };
 
-  // Fungsi buat dropdown alat dengan input jumlah dan tombol hapus
-  function buatDropdownAlat() {
-    const div = document.createElement("div");
-    div.className = "alat-row";
-
-    // Buat dropdown alat
-    const select = document.createElement("select");
-    select.required = true;
-    const optDefault = document.createElement("option");
-    optDefault.value = "";
-    optDefault.textContent = "Pilih Alat";
-    select.appendChild(optDefault);
-
-    const labelAlat = {
-      "microwave": "Microwave",
-      "rice cooker": "Penanak Nasi (Rice Cooker)",
-      "blender": "Blender",
-      "washing machine": "Mesin Cuci",
-      "dryer": "Mesin Pengering (Dryer)",
-      "iron": "Setrika",
-      "water heater": "Pemanas Air",
-      "ac": "AC",
-      "vacuum cleaner": "Penyedot Debu (Vacuum Cleaner)"
-    };
-
-    for (const alat in dayaAlat) {
-      const option = document.createElement("option");
-      option.value = alat; // bahasa Inggris, untuk dikirim ke API
-      option.textContent = labelAlat[alat]; // label Bahasa Indonesia
-      select.appendChild(option);
-    }
-
-    // Buat input jumlah
-    const qtyInput = document.createElement("input");
-    qtyInput.type = "number";
-    qtyInput.min = "1";
-    qtyInput.value = "1";
-    qtyInput.required = true;
-    qtyInput.className = "qty-input";
-    qtyInput.title = "Jumlah alat";
-
-    // Buat tombol hapus
-    const btnRemove = document.createElement("button");
-    btnRemove.type = "button";
-    btnRemove.className = "remove-btn";
-    btnRemove.textContent = "✕";
-    btnRemove.title = "Hapus alat ini";
-    btnRemove.onclick = () => {
-      alatContainer.removeChild(div);
-    };
-
-    div.appendChild(select);
-    div.appendChild(qtyInput);
-    div.appendChild(btnRemove);
-    return div;
-  }
-
-  // Tambah dropdown alat pertama saat load
-  window.onload = () => {
-    alatContainer.appendChild(buatDropdownAlat());
-  };
-
-  // Klik tombol tambah alat
-  addAlatBtn.addEventListener("click", () => {
-    alatContainer.appendChild(buatDropdownAlat());
-  });
-
-  // Submit form
-  document.getElementById("predictForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const hour = parseInt(document.getElementById("hour").value);
-    const alatRows = alatContainer.querySelectorAll(".alat-row");
-    
-    // Hitung daya per kelompok berdasarkan alat dan jumlahnya
-    let inputMeter = {
-      Sub_metering_1: 0,
-      Sub_metering_2: 0,
-      Sub_metering_3: 0
-    };
-
-    // Array untuk simpan semua alat yang dipilih (untuk validasi)
-    let selectedAlat = [];
-    
-    // Total konsumsi daya (untuk validasi)
-    let totalDaya = 0;
-
-    alatRows.forEach(row => {
-      const alat = row.querySelector("select").value;
-      const qty = parseInt(row.querySelector(".qty-input").value) || 0;
-      
-      if (alat) {
-        selectedAlat.push(alat);
-        const meter = kelompok[alat];
-        const dayaKW = dayaAlat[alat] / 1000;
-        if (meter) {
-          const totalAlatDaya = dayaKW * qty;
-          inputMeter[meter] += totalAlatDaya;
-          totalDaya += totalAlatDaya;
+        for (const alat in dayaAlat) {
+          const option = document.createElement("option");
+          option.value = alat; // bahasa Inggris, untuk dikirim ke API
+          option.textContent = labelAlat[alat]; // label Bahasa Indonesia
+          select.appendChild(option);
         }
+
+        // Buat input jumlah
+        const qtyInput = document.createElement("input");
+        qtyInput.type = "number";
+        qtyInput.min = "1";
+        qtyInput.value = "1";
+        qtyInput.required = true;
+        qtyInput.className = "qty-input";
+        qtyInput.title = "Jumlah alat";
+
+        //Buat input watt
+        const wattInput = document.createElement("input");
+        wattInput.type = "number";
+        wattInput.min = "1";
+        wattInput.value = "";
+        wattInput.required = true;
+        wattInput.className = "qty-input";
+        wattInput.placeholder = "Watt";
+
+        const wattLabel = document.createElement("span");
+        wattLabel.textContent = "Watt";
+        wattLabel.style.fontSize = "14px";
+
+        // Auto-set watt input ketika alat dipilih
+        select.addEventListener("change", () => {
+          const selected = select.value;
+          if (dayaAlat[selected]) {
+            wattInput.value = dayaAlat[selected];
+          } else {
+            wattInput.value = "";
+          }
+        });
+
+        // Buat tombol hapus
+        const btnRemove = document.createElement("button");
+        btnRemove.type = "button";
+        btnRemove.className = "remove-btn";
+        btnRemove.textContent = "✕";
+        btnRemove.title = "Hapus alat ini";
+        btnRemove.onclick = () => {
+          alatContainer.removeChild(div);
+        };
+
+        div.appendChild(select);
+        div.appendChild(qtyInput);
+        div.appendChild(wattInput);
+        div.appendChild(wattLabel);
+        div.appendChild(btnRemove);
+        return div;
       }
-    });
 
-    if (selectedAlat.length === 0) {
-      alert("Pilih minimal 1 alat.");
-      return;
-    }
-    
-    // Validasi total daya
-    const warningAlert = document.getElementById("warningAlert");
-    if (totalDaya > 5) {
-      // Tampilkan peringatan dan konfirmasi
-      if (!confirm("⚠️ Input melebihi range pelatihan (> 5kWh). Hasil mungkin tidak akurat.\n\nTeruskan prediksi?")) {
-        return; // Batal jika user memilih tidak
-      }
-    }
+      // Tambah dropdown alat pertama saat load
+      window.onload = () => {
+        alatContainer.appendChild(buatDropdownAlat());
+      };
 
-    const data = {
-      Sub_metering_1: parseFloat(inputMeter.Sub_metering_1.toFixed(3)),
-      Sub_metering_2: parseFloat(inputMeter.Sub_metering_2.toFixed(3)),
-      Sub_metering_3: parseFloat(inputMeter.Sub_metering_3.toFixed(3)),
-      hour: hour
-    };
-
-    try {
-      const res = await fetch("/api/predict", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+      // Klik tombol tambah alat
+      addAlatBtn.addEventListener("click", () => {
+        alatContainer.appendChild(buatDropdownAlat());
       });
 
-      const result = await res.json();
+      // Submit form
+      document
+        .getElementById("predictForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
 
-      if (res.ok) {
-        // Ambil total konsumsi dari hasil
-        const totalUsage = result.total_usage_kw;
-        
-        // Tampilkan peringatan jika total konsumsi melebihi 5kWh
-        const warningAlert = document.getElementById("warningAlert");
-        if (totalUsage > 5) {
-          warningAlert.style.display = "block";
-        } else {
-          warningAlert.style.display = "none";
-        }
-        
-        document.getElementById("totalUsage").innerText = totalUsage.toFixed(2);
-        document.getElementById("prediksi").innerText = result.prediction_kw.toFixed(2);
-        document.getElementById("kategori").innerText = result.category;
-        document.getElementById("rekomUmum").innerText = result.general_recommendation;
-        document.getElementById("fokusArea").innerText = result.focus_area;
-        document.getElementById("rekomSpesifik").innerText = result.specific_recommendation;
+          const hour = parseInt(document.getElementById("hour").value);
+          const alatRows = alatContainer.querySelectorAll(".alat-row");
 
-        const breakdownList = document.getElementById("breakdownList");
-        breakdownList.innerHTML = "";
-        for (const [area, value] of Object.entries(result.breakdown)) {
-          const li = document.createElement("li");
-          li.innerText = `${area}: ${value.toFixed(2)} kWh`;
-          breakdownList.appendChild(li);
-        }
+          // Hitung daya per kelompok berdasarkan alat dan jumlahnya
+          let inputMeter = {
+            Sub_metering_1: 0,
+            Sub_metering_2: 0,
+            Sub_metering_3: 0,
+          };
 
-        document.getElementById("result").style.display = "block";
-      } else {
-        alert(result.error || "Gagal memproses prediksi.");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("Terjadi kesalahan saat menghubungi server.");
-    }
-  });
-</script>
+          // Array untuk simpan semua alat yang dipilih (untuk validasi)
+          let selectedAlat = [];
 
-</body>
+          // Total konsumsi daya (untuk validasi)
+          let totalDaya = 0;
+
+          alatRows.forEach((row) => {
+            const alat = row.querySelector("select").value;
+            const qty = parseInt(row.querySelector(".qty-input").value) || 0;
+            const wattInput = row.querySelectorAll("input")[1]; // input kedua adalah watt
+            const watt = parseInt(wattInput.value) || 0;
+
+            if (alat) {
+              selectedAlat.push(alat);
+              const meter = kelompok[alat];
+              const dayaKW = dayaAlat[alat] / 1000;
+              if (meter) {
+                const totalAlatDaya = dayaKW * qty;
+                inputMeter[meter] += totalAlatDaya;
+                totalDaya += totalAlatDaya;
+              }
+            }
+          });
+
+          if (selectedAlat.length === 0) {
+            alert("Pilih minimal 1 alat.");
+            return;
+          }
+
+          // Validasi total daya
+          const warningAlert = document.getElementById("warningAlert");
+          if (totalDaya > 5) {
+            // Tampilkan peringatan dan konfirmasi
+            if (
+              !confirm(
+                "⚠️ Input melebihi range pelatihan (> 5kWh). Hasil mungkin tidak akurat.\n\nTeruskan prediksi?"
+              )
+            ) {
+              return; // Batal jika user memilih tidak
+            }
+          }
+
+          const data = {
+            Sub_metering_1: parseFloat(inputMeter.Sub_metering_1.toFixed(3)),
+            Sub_metering_2: parseFloat(inputMeter.Sub_metering_2.toFixed(3)),
+            Sub_metering_3: parseFloat(inputMeter.Sub_metering_3.toFixed(3)),
+            hour: hour,
+          };
+
+          try {
+            const res = await fetch("/api/predict", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(data),
+            });
+
+            const result = await res.json();
+
+            if (res.ok) {
+              // Ambil total konsumsi dari hasil
+              const totalUsage = result.total_usage_kw;
+
+              // Tampilkan peringatan jika total konsumsi melebihi 5kWh
+              const warningAlert = document.getElementById("warningAlert");
+              if (totalUsage > 5) {
+                warningAlert.style.display = "block";
+              } else {
+                warningAlert.style.display = "none";
+              }
+
+              document.getElementById("totalUsage").innerText =
+                totalUsage.toFixed(2);
+              document.getElementById("prediksi").innerText =
+                result.prediction_kw.toFixed(2);
+              document.getElementById("kategori").innerText = result.category;
+              document.getElementById("rekomUmum").innerText =
+                result.general_recommendation;
+              document.getElementById("fokusArea").innerText =
+                result.focus_area;
+              document.getElementById("rekomSpesifik").innerText =
+                result.specific_recommendation;
+
+              const breakdownList = document.getElementById("breakdownList");
+              breakdownList.innerHTML = "";
+              for (const [area, value] of Object.entries(result.breakdown)) {
+                const li = document.createElement("li");
+                li.innerText = `${area}: ${value.toFixed(2)} kWh`;
+                breakdownList.appendChild(li);
+              }
+
+              document.getElementById("result").style.display = "block";
+            } else {
+              alert(result.error || "Gagal memproses prediksi.");
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            alert("Terjadi kesalahan saat menghubungi server.");
+          }
+        });
+    </script>
+  </body>
 </html>
